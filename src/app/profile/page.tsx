@@ -76,6 +76,7 @@ const Profile = () => {
                     height: "auto",
                   }}
                   alt="profile"
+                  className="rounded-md"
                 />
                 <label
                   htmlFor="profile"

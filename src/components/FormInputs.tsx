@@ -42,7 +42,6 @@ import { useFormContext } from 'react-hook-form';
             id={name}
             {...register(name)}
             onChange={(e) => {
-              // Call the provided onChange if it exists
               if (onChange) onChange(e);
             }}
 

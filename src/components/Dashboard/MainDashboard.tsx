@@ -1,9 +1,3 @@
-// const [properties, setProperties] = useState([
-//   { id: 1, name: "196 Kansas Avenue", type: "Apartment", status: "Available" },
-//   { id: 2, name: "917 Garden Street", type: "House", status: "Rented" },
-//   { id: 3, name: "568 Gotham Center", type: "Commercial", status: "Available" },
-// ]);
-
 "use client"
 
 import React, { useEffect, useState } from "react";
@@ -17,6 +11,13 @@ export default function MainDashboard() {
     const storedProperties = getFromLocalStorage("properties");
     return storedProperties ? JSON.parse(storedProperties) : [];
   });
+
+  const staticProperties = [
+    { id: 1, name: "Sunny Apartment", type: "Apartment", status: "Available" },
+    { id: 2, name: "Cozy House", type: "House", status: "Rented" },
+    { id: 3, name: "Downtown Office", type: "Commercial", status: "Available" },
+  ];
+
 
   const [filter, setFilter] = useState({ type: "All", status: "All" });
   const [newProperty, setNewProperty] = useState({ name: "", type: "Apartment", status: "Available" });
@@ -47,7 +48,6 @@ export default function MainDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      {/* Header */}
       <header className="mb-8">
         <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4 p-6 bg-gray-100 rounded-lg">
@@ -86,6 +86,21 @@ export default function MainDashboard() {
       </section>
 
       <section className="mb-8">
+        <h2 className="text-lg font-semibold mb-4">Some Properties</h2>
+        <div className="bg-white p-4 rounded-lg shadow-default dark:border-strokedark dark:bg-boxdark">
+          <ul>
+            {staticProperties.map((property) => (
+              <li key={property.id} className="border-b py-2">
+                <p className="font-semibold">{property.name}</p>
+                <p className="text-sm text-gray-600">{property.type} - {property.status}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+
+      <section className="mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Properties</h2>
           <div className="flex gap-4">
@@ -116,7 +131,15 @@ export default function MainDashboard() {
               {filteredProperties.map((property: any) => (
                 <li key={property.id} className="border-b py-2 ">
                   <p className="font-semibold">{property.name}</p>
-                  <p className="text-sm text-gray-600">{property.type} - {property.status}</p>
+                  <p className="text-sm text-gray-600">{property.type} - <span
+                className={
+                  property.status === "Available"
+                    ? "text-green-600 font-medium"
+                    : "text-red font-medium"
+                }
+              >
+                {property.status}
+              </span></p>
                 </li>
               ))}
             </ul>

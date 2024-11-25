@@ -6,6 +6,17 @@ import { ActivityItem, ProgressStep, StatCard } from "../CardDataStats";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/local-storage";
 import Image from "next/image";
 import Modal from "../Modal/Modal";
+import { SelectInput, TextInput } from "../FormInputs";
+import { NewPropertyForm } from "@/types";
+import { FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+const schema = z.object({
+  name: z.string().min(1, 'Property Name is required'),
+  type: z.string().min(1, 'Property Type is required'),
+  status: z.string().min(1, 'Rental Status is required'),
+});
 
 export default function MainDashboard() {
   const [properties, setProperties] = useState(() => {
@@ -21,31 +32,38 @@ export default function MainDashboard() {
 
 
   const [filter, setFilter] = useState({ type: "All", status: "All" });
-  const [newProperty, setNewProperty] = useState({ name: "", type: "Apartment", status: "Available" });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     setToLocalStorage("properties", JSON.stringify(properties));
   }, [properties]);
 
-  const handleAddProperty = () => {
-    if (!newProperty.name.trim()) {
-      setError("Property name is required.");
-      return;
-    }
-
-    setProperties([...properties, { ...newProperty, id: properties.length + 1 }]);
-    setNewProperty({ name: "", type: "Apartment", status: "Available" });
-    setIsModalOpen(false);
-    setError("");
-  };
 
   const filteredProperties = properties.filter((property : any) => {
     const matchesType = filter.type === "All" || property.type === filter.type;
     const matchesStatus = filter.status === "All" || property.status === filter.status;
     return matchesType && matchesStatus;
   });
+
+
+
+  
+  const methods = useForm<NewPropertyForm>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: '',
+      type: '',
+      status: '',
+    },
+  });
+
+
+  const onSubmit = (data: NewPropertyForm) => {
+    setProperties([...properties, { ...data, id: properties.length + 1 }]);
+    setIsModalOpen(false);
+    methods.reset()
+  };
+  
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -191,53 +209,41 @@ export default function MainDashboard() {
       </section>
 
       <Modal
-        isOpen={isModalOpen}
-        title="Add New Property"
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={handleAddProperty}
-        confirmText="Add"
-        cancelText="Cancel"
-      >
-        <div className="mb-4">
-          <label className="block mb-1">Property Name</label>
-          <input
-            type="text"
-            className="border border-gray-300 rounded-lg p-2 w-full"
-            value={newProperty.name}
-            onChange={(e) =>
-              setNewProperty({ ...newProperty, name: e.target.value })
-            }
-            />
-            {error && <p className="text-red mb-4">{error}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block mb-1">Property Type</label>
-          <select
-            className="border border-gray-300 rounded-lg p-2 w-full"
-            value={newProperty.type}
-            onChange={(e) =>
-              setNewProperty({ ...newProperty, type: e.target.value })
-            }
-          >
-            <option value="Apartment">Apartment</option>
-            <option value="House">House</option>
-            <option value="Commercial">Commercial</option>
-          </select>
-        </div>
-        <div className="mb-4">
-          <label className="block mb-1">Rental Status</label>
-          <select
-            className="border border-gray-300 rounded-lg p-2 w-full"
-            value={newProperty.status}
-            onChange={(e) =>
-              setNewProperty({ ...newProperty, status: e.target.value })
-            }
-          >
-            <option value="Available">Available</option>
-            <option value="Rented">Rented</option>
-          </select>
-        </div>
-      </Modal>
+      isOpen={isModalOpen}
+      title="Add New Property"
+      onClose={() => setIsModalOpen(false)}
+      onConfirm={methods.handleSubmit(onSubmit)}
+      confirmText="Add"
+      cancelText="Cancel"
+    >
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <TextInput
+            name="name"
+            label="Property Name"
+            onChange={(e) => console.log(e.target.value)} 
+            
+          />
+          <SelectInput
+            name="type"
+            label="Property Type"
+            options={[
+              { value: 'Apartment', label: 'Apartment' },
+              { value: 'House', label: 'House' },
+              { value: 'Commercial', label: 'Commercial' },
+            ]}
+          />
+          <SelectInput
+            name="status"
+            label="Rental Status"
+            options={[
+              { value: 'Available', label: 'Available' },
+              { value: 'Rented', label: 'Rented' },
+            ]}
+          />
+        </form>
+      </FormProvider>
+    </Modal>
     </div>
   );
 }

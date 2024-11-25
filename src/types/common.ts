@@ -11,6 +11,7 @@ export interface CustomButtonProps {
     handleClick?: MouseEventHandler<HTMLButtonElement>;
     style?: React.CSSProperties;
   }
+  
   export interface InavLink {
     id: number;
     url: string;
@@ -35,3 +36,9 @@ export interface IMeta{
     total: number;
     totalPage: number;
   };
+
+  export interface NewPropertyForm {
+    name: string;
+    type: string;
+    status: string;
+  }

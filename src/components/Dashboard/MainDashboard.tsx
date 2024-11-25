@@ -5,6 +5,7 @@ import { FaCheck, FaLock, FaWallet, FaStar, FaPlus } from "react-icons/fa";
 import { ActivityItem, ProgressStep, StatCard } from "../CardDataStats";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/local-storage";
 import Image from "next/image";
+import Modal from "../Modal/Modal";
 
 export default function MainDashboard() {
   const [properties, setProperties] = useState(() => {
@@ -189,60 +190,54 @@ export default function MainDashboard() {
         </div>
       </section>
 
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-1/3">
-            <h2 className="text-lg font-semibold mb-4">Add New Property</h2>
-            {error && <p className="text-red-500 mb-4">{error}</p>}
-            <div className="mb-4">
-              <label className="block mb-1">Property Name</label>
-              <input
-                type="text"
-                className="border border-gray-300 rounded-lg p-2 w-full"
-                value={newProperty.name}
-                onChange={(e) => setNewProperty({ ...newProperty, name: e.target.value })}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-1">Property Type</label>
-              <select
-                className="border border-gray-300 rounded-lg p-2 w-full"
-                value={newProperty.type}
-                onChange={(e) => setNewProperty({ ...newProperty, type: e.target.value })}
-              >
-                <option value="Apartment">Apartment</option>
-                <option value="House">House</option>
-                <option value="Commercial">Commercial</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block mb-1">Rental Status</label>
-              <select
-                className="border border-gray-300 rounded-lg p-2 w-full"
-                value={newProperty.status}
-                onChange={(e) => setNewProperty({ ...newProperty, status: e.target.value })}
-              >
-                <option value="Available">Available</option>
-                <option value="Rented">Rented</option>
-              </select>
-            </div>
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleAddProperty}
-                className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
-              >
-                Add
-              </button>
-            </div>
-          </div>
+      <Modal
+        isOpen={isModalOpen}
+        title="Add New Property"
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleAddProperty}
+        confirmText="Add"
+        cancelText="Cancel"
+      >
+        <div className="mb-4">
+          <label className="block mb-1">Property Name</label>
+          <input
+            type="text"
+            className="border border-gray-300 rounded-lg p-2 w-full"
+            value={newProperty.name}
+            onChange={(e) =>
+              setNewProperty({ ...newProperty, name: e.target.value })
+            }
+            />
+            {error && <p className="text-red mb-4">{error}</p>}
         </div>
-      )}
+        <div className="mb-4">
+          <label className="block mb-1">Property Type</label>
+          <select
+            className="border border-gray-300 rounded-lg p-2 w-full"
+            value={newProperty.type}
+            onChange={(e) =>
+              setNewProperty({ ...newProperty, type: e.target.value })
+            }
+          >
+            <option value="Apartment">Apartment</option>
+            <option value="House">House</option>
+            <option value="Commercial">Commercial</option>
+          </select>
+        </div>
+        <div className="mb-4">
+          <label className="block mb-1">Rental Status</label>
+          <select
+            className="border border-gray-300 rounded-lg p-2 w-full"
+            value={newProperty.status}
+            onChange={(e) =>
+              setNewProperty({ ...newProperty, status: e.target.value })
+            }
+          >
+            <option value="Available">Available</option>
+            <option value="Rented">Rented</option>
+          </select>
+        </div>
+      </Modal>
     </div>
   );
 }

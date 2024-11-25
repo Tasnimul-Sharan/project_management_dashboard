@@ -2,6 +2,8 @@ import { combineReducers } from "@reduxjs/toolkit";
 import { persistReducer} from "redux-persist";
 import storageEngine from "./forPersistErrorSolve";
 import { baseApi } from "./api/baseApi";
+import authSlice from "./slice/authSlice";
+
 
 
 const persistConfig = {
@@ -12,8 +14,8 @@ const persistConfig = {
 
 
 const reducer=combineReducers({
-    [baseApi.reducerPath]: baseApi.reducer
-   
+    [baseApi.reducerPath]: baseApi.reducer,
+    authUI:authSlice
 })
 
 export const persistedReducer = persistReducer(persistConfig, reducer)

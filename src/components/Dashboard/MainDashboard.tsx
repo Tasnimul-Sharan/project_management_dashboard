@@ -63,11 +63,11 @@ export default function MainDashboard() {
              alt="User"
            />
 
-<div>
- <h1 className="text-2xl font-bold text-black dark:text-white">GOOD MORNING!</h1>
- <p className="text-gray-600">Here is an overview of your property</p>
-</div>
-</div>
+          <div>
+           <h1 className="text-2xl font-bold text-black dark:text-white">GOOD MORNING!</h1>
+           <p className="text-gray-600">Here is an overview of your property</p>
+          </div>
+          </div>
           <button
             onClick={() => setIsModalOpen(true)}
             className="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 gap-2"
@@ -87,7 +87,7 @@ export default function MainDashboard() {
 
       <section className="mb-8">
         <h2 className="text-lg font-semibold mb-4">Some Properties</h2>
-        <div className="bg-white p-4 rounded-lg shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="bg-white p-4 rounded-lg dark:border-strokedark dark:bg-boxdark">
           <ul>
             {staticProperties.map((property) => (
               <li key={property.id} className="border-b py-2">
@@ -125,7 +125,7 @@ export default function MainDashboard() {
             </select>
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="bg-white p-4 rounded-lg dark:border-strokedark dark:bg-boxdark">
           {filteredProperties.length > 0 ? (
             <ul>
               {filteredProperties.map((property: any) => (
@@ -166,7 +166,7 @@ export default function MainDashboard() {
           />
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-md dark:border-strokedark dark:bg-boxdark">
+        <div className="bg-white p-6 rounded-lg dark:border-strokedark dark:bg-boxdark">
           <h2 className="text-lg font-semibold mb-4">New activity</h2>
           <ActivityItem
             title="Pet Friendliness"
@@ -191,7 +191,7 @@ export default function MainDashboard() {
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+          <div className="bg-white p-6 rounded-lg w-1/3">
             <h2 className="text-lg font-semibold mb-4">Add New Property</h2>
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <div className="mb-4">

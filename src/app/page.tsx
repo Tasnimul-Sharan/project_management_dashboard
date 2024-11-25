@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import React from 'react';
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import MainDashboard from "@/components/Dashboard/MainDashboard";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Aves Digital Admin",
@@ -14,6 +15,7 @@ export default function Home() {
     <>
       <DefaultLayout>
         <MainDashboard />
+        <Footer />
       </DefaultLayout>
    </>
   );

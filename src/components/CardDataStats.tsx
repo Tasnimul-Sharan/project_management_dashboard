@@ -24,7 +24,7 @@ export interface ActivityItemProps {
 
 
 export const StatCard: React.FC<StatCardProps> = ({ icon, label, value, subLabel }) => (
-  <div className="bg-white p-6 rounded-lg flex justify-between items-center shadow-default dark:border-strokedark dark:bg-boxdark">
+  <div className="bg-white p-6 rounded-lg flex justify-between items-center dark:border-strokedark dark:bg-boxdark">
     <div>
       <h3 className="text-lg font-semibold">{label}</h3>
       <p className="text-xl font-bold">{value}</p>

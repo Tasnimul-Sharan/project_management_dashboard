@@ -1,8 +1,5 @@
 "use client";
 
-// Solved this NextJs redux persist error
-// Error name = "redux-persist failed to create sync storage. falling back to noop storage."
-
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
 const createNoopStorage = () => {
@@ -25,6 +22,4 @@ const storageEngine =
     : createWebStorage('local');
 
 export default storageEngine;
-
-// use this storageEngine into persistConfig --> storage
 
